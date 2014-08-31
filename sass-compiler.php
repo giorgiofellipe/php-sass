@@ -30,7 +30,7 @@ class SassCompiler
      * @param string $css_folder destination folder where you want your .css files
      * @param string $format_style CSS output format, see http://leafo.net/scssphp/docs/#output_formatting for more.
      */
-    static public function run($scss_folder, $css_folder, $format_style = "scss_formatter")
+    static public function run($scss_folder, $css_folder = false, $format_style = "scss_formatter")
     {
         // scssc will be loaded automatically via Composer
         $scss_compiler = new scssc();
@@ -40,6 +40,10 @@ class SassCompiler
         $scss_compiler->setFormatter($format_style);
         // get all .scss files from scss folder
         $filelist = glob($scss_folder . "*.scss");
+        //if there's not set the css_folder lets set it equal to scss_folder
+        if (!$css_folder) { 
+            $css_folder = $scss_folder;
+        }
 
         // step through all .scss files in that folder
         foreach ($filelist as $file_path) {
